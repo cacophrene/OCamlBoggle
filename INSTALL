@@ -1,0 +1,33 @@
+OCamlBoggle - INSTALL
+------------------------------
+
+1. Exécutables
+--------------------
+
+  Les exécutables des différentes versions publiques d'OCamlBoggle sont 
+disponibles dans le dossier bin/. Ce sont tous des exécutables compilés pour
+GNU/Linux. Si vous utilisez un autre système d'exploitation, vous devez suivre
+les instructions au paragraphe suivant.
+
+
+2. Installation à partir des sources
+--------------------
+
+  Pour installer OCamlBoggle à partir des sources, vous devez d'abord vous
+assurer de satisfaire les dépendances suivantes :
+
+  * OCaml 3.11 ou supérieur (voir http://caml.inria.fr/) 
+  * LablGTK 2.12 (http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html)
+
+Il vous suffit ensuite de lancer un terminal puis d'exécuter les commandes
+suivantes :
+
+$ cd src/
+$ ocamlbuild oCamlBoggle.native
+
+Pour compiler en bytecode, vous devez d'abord éditer le script de compilation
+src/myocamlbuild.ml et retirer l'option -nodynlink. Utilisez ensuite les
+commandes suivantes :
+
+$ cd src/
+$ ocamlbuild oCamlBoggle.byte

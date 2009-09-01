@@ -6,7 +6,7 @@ let set_options () =
   let dirs = ["-I"; "+lablgtk2"] in
   Options.ocaml_libs := ["lablgtk"; "str"; "unix"];
   Options.ocaml_cflags := dirs @ ["-w"; "s"];
-  Options.ocaml_lflags := dirs @ ["-nodynlink"; "-unsafe"; "-inline"; "10000000"]
+  Options.ocaml_lflags := dirs @ ["-nodynlink"]
 
 let _ =
   dispatch begin function 
