@@ -31,3 +31,13 @@ commandes suivantes :
 
 $ cd src/
 $ ocamlbuild oCamlBoggle.byte
+
+
+3. Remarque importante
+--------------------
+
+  Pour fonctionner, les deux fichiers suivants doivent se trouver dans le même
+répertoire qu'OCamlBoggle :
+
+  - OCAMLBOGGLE-DATABASE            Base de données.
+  - ocamlboggle-icon.png            Icône de l'application. 
