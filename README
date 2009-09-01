@@ -1,0 +1,15 @@
+OCamlBoggle - README
+------------------------------
+
+OCamlBoggle est un programme de résolution de grilles de Boggle entièrement 
+écrit en OCaml.
+
+1. Base de données
+--------------------
+
+La base de données utilisée par OCamlBoggle comporte plus de 580 000 entrées.
+Elle est issue du dictionnaire électronique des formes fléchies du français
+(DELA) produit par l'Université de Marne-la-Vallée. Son chargement à l'ouverture
+est conçu pour être très rapide (<< 1 s).
+
+

@@ -1,0 +1,42 @@
+### Starting build.
+# Target: oCamlBoggle.ml.depends, tags: { extension:ml, file:oCamlBoggle.ml, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules oCamlBoggle.ml > oCamlBoggle.ml.depends # cached
+# Target: find.mli.depends, tags: { extension:mli, file:find.mli, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules find.mli > find.mli.depends # cached
+# Target: find.cmi, tags: { byte, compile, extension:mli, file:find.mli, interf, ocaml, quiet, traverse }
+/usr/local/bin/ocamlc.opt -c -I +lablgtk2 -w s -o find.cmi find.mli # cached
+# Target: gUI.mli.depends, tags: { extension:mli, file:gUI.mli, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules gUI.mli > gUI.mli.depends # cached
+# Target: gUI.cmi, tags: { byte, compile, extension:mli, file:gUI.mli, interf, ocaml, quiet, traverse }
+/usr/local/bin/ocamlc.opt -c -I +lablgtk2 -w s -o gUI.cmi gUI.mli # cached
+# Target: oCamlBoggle.cmo, tags: { byte, compile, extension:ml, file:oCamlBoggle.ml, implem, ocaml, quiet, traverse }
+/usr/local/bin/ocamlc.opt -c -I +lablgtk2 -w s -o oCamlBoggle.cmo oCamlBoggle.ml # cached
+# Target: find.ml.depends, tags: { extension:ml, file:find.ml, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules find.ml > find.ml.depends # cached
+# Target: args.ml.depends, tags: { extension:ml, file:args.ml, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules args.ml > args.ml.depends # cached
+# Target: args.mli.depends, tags: { extension:mli, file:args.mli, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules args.mli > args.mli.depends # cached
+# Target: args.cmi, tags: { byte, compile, extension:mli, file:args.mli, interf, ocaml, quiet, traverse }
+/usr/local/bin/ocamlc.opt -c -I +lablgtk2 -w s -o args.cmi args.mli # cached
+# Target: args.cmx, tags: { compile, extension:ml, file:args.ml, implem, native, ocaml, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -c -I +lablgtk2 -w s -o args.cmx args.ml # cached
+# Target: gUI.ml.depends, tags: { extension:ml, file:gUI.ml, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules gUI.ml > gUI.ml.depends # cached
+# Target: gUI.cmx, tags: { compile, extension:ml, file:gUI.ml, implem, native, ocaml, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -c -I +lablgtk2 -w s -o gUI.cmx gUI.ml # cached
+# Target: trie.ml.depends, tags: { extension:ml, file:trie.ml, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules trie.ml > trie.ml.depends # cached
+# Target: trie.mli.depends, tags: { extension:mli, file:trie.mli, ocaml, ocamldep, quiet, traverse }
+/usr/local/bin/ocamldep.opt -modules trie.mli > trie.mli.depends # cached
+# Target: trie.cmi, tags: { byte, compile, extension:mli, file:trie.mli, interf, ocaml, quiet, traverse }
+/usr/local/bin/ocamlc.opt -c -I +lablgtk2 -w s -o trie.cmi trie.mli # cached
+# Target: trie.cmx, tags: { compile, extension:ml, file:trie.ml, implem, native, ocaml, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -c -I +lablgtk2 -w s -o trie.cmx trie.ml # cached
+# Target: find.cmx, tags: { compile, extension:ml, file:find.ml, implem, native, ocaml, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -c -I +lablgtk2 -w s -o find.cmx find.ml # cached
+# Target: oCamlBoggle.cmx, tags: { compile, extension:ml, file:oCamlBoggle.ml, implem, native, ocaml, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -c -I +lablgtk2 -w s -o oCamlBoggle.cmx oCamlBoggle.ml # cached
+# Target: oCamlBoggle.native, tags: { dont_link_with, extension:native, file:oCamlBoggle.native, link, native, ocaml, program, quiet, traverse }
+/usr/local/bin/ocamlopt.opt -I +lablgtk2 -nodynlink -unsafe -inline 10000000 lablgtk.cmxa str.cmxa unix.cmxa args.cmx gUI.cmx trie.cmx find.cmx oCamlBoggle.cmx -o oCamlBoggle.native # cached
+# Compilation successful.
