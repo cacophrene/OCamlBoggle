@@ -1,15 +1,53 @@
 OCamlBoggle - README
 ------------------------------
 
-OCamlBoggle est un programme de résolution de grilles de Boggle entièrement 
-écrit en OCaml.
+OCamlBoggle est un programme de résolution de grilles de Boggle entièrement
+écrit en Objective Caml (OCaml). C'est un logiciel libre publié sous les termes
+de la licence GNU GPL v3 (voir le fichier LICENSE de ce répertoire).
+
+1. Structure
+--------------------
+
+README                    Ce fichier.
+INSTALL                   Instructions d'installation.
+bin/                      Contient un exécutable GNU/Linux.
+lex/                      Lexique (> 580 000 entrées) au format tar.gz.
+src/                      Le code source OCaml.
+
+Vous trouverez ci-dessous quelques détails sur l'implémentation d'OCamlBoggle
+et ses fonctionnalités.
+
 
 1. Base de données
 --------------------
 
-La base de données utilisée par OCamlBoggle comporte plus de 580 000 entrées.
+  La base de données utilisée par OCamlBoggle comporte plus de 580 000 entrées.
 Elle est issue du dictionnaire électronique des formes fléchies du français
-(DELA) produit par l'Université de Marne-la-Vallée. Son chargement à l'ouverture
-est conçu pour être très rapide (<< 1 s).
+(DELA) produit par l'Université de Marne-la-Vallée. Afin d'accélérer son 
+chargement au démarrage de l'application, la base de données n'est pas stockée
+sous forme de fichier texte. Il s'agit d'un fichier produit à l'aide de la
+commande output_value du module Pervasives.
 
 
+2. Recherche de mots
+--------------------
+
+  Les mots sont recherchés dans un prefix tree (ou trie) afin de stopper le
+plus rapidement possible les recherches infructueuses. On teste ainsi en moyenne
+1000 combinaisons de lettres pour une grille de 4 x 4 cases. Sans aucun arrêt
+prématuré, il y en aurait plus de 12 000 000 !
+
+
+3. Bugs connus
+--------------------
+
+  L'affichage de la solution dans la vue en liste (GtkTreeView) est lente dès
+que la grille permet de former plus d'une centaine de mots. À l'heure actuelle,
+je n'ai pas trouvé de solution satisfaisante à ce problème.
+
+
+4. Anomalies, suggestions, commentaires
+--------------------
+
+Vous pouvez adresser vos commentaire, suggestions et critiques à l'adresse
+suivante : cacophrene AT gmail DOT com
