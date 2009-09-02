@@ -44,7 +44,11 @@ module Table :
 
 module type TREE_VIEW =
   sig
-    val add : key:string -> word:string -> score:int -> (int * int) list -> unit
+    val add : 
+      ?select:bool -> 
+      key:string -> 
+      word:string -> 
+      score:int -> (int * int) list -> unit
     val clear : unit -> unit
     val view : GTree.view
   end

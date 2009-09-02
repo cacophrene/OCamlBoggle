@@ -69,7 +69,7 @@ let check_guessed_word t =
         if key = str then (
           let word = Find.string_of_list l in
           let score = Find.score_of_string key in
-          GUI.Guesses.add ~key ~word ~score pos;
+          GUI.Guesses.add ~select:true ~key ~word ~score pos;
           solution := Find.SSet.remove tpl !solution;
           raise Exit;
         )

@@ -99,7 +99,11 @@ module type TAB_INFOS =
 
 module type TREE_VIEW =
   sig
-    val add : key:string -> word:string -> score:int -> (int * int) list -> unit
+    val add : 
+      ?select:bool -> 
+      key:string -> 
+      word:string -> 
+      score:int -> (int * int) list -> unit
     val clear : unit -> unit
     val view : GTree.view
   end
@@ -117,13 +121,7 @@ module Make = functor (TabInfo : TAB_INFOS) ->
         let store = GTree.list_store cols
       end
 
-    let add ~key ~word ~score seq = 
-      let row = Data.store#append () in
-      Data.store#set ~row ~column:Data.key key;
-      Data.store#set ~row ~column:Data.word word;
-      Data.store#set ~row ~column:Data.score score;
-      Data.store#set ~row ~column:Data.seq seq
-  
+
     let clear_path =
       let init = [`NORMAL, `WHITE] in
       Table.iter (fun entry -> entry#misc#modify_base init)
@@ -176,6 +174,14 @@ module Make = functor (TabInfo : TAB_INFOS) ->
       let sel = view#selection in
       sel#connect#changed (show_path sel);
       view
+
+    let add ?(select = false) ~key ~word ~score seq = 
+      let row = Data.store#append () in
+      Data.store#set ~row ~column:Data.key key;
+      Data.store#set ~row ~column:Data.word word;
+      Data.store#set ~row ~column:Data.score score;
+      Data.store#set ~row ~column:Data.seq seq;
+      if select then view#selection#select_iter row
 
     let page = notebook#append_page
       ~tab_label:(GMisc.label ~text:TabInfo.title ())#coerce
