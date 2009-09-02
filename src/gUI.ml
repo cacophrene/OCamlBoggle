@@ -191,7 +191,7 @@ let time = GMisc.label
 
 let set_remaining_time ~seconds:n =
   let min = n / 60 and sec = n mod 60 in
-  Printf.ksprintf time#set_label "<b><big>%02d:%02d</big><b>" min sec
+  Printf.ksprintf time#set_label "<b><big>%02d:%02d</big></b>" min sec
 
 let try_word = 
   let entry = GEdit.entry 

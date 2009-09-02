@@ -41,3 +41,16 @@ let init () =
     function entry ->
       entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
   ) ()
+
+let counter = ref 180
+
+let decr_counter () =
+  decr counter;
+  GUI.set_remaining_time ~seconds:!counter;
+  !counter > 0
+
+let run () =
+  init ();
+  let t = Find.run () in
+  Find.SSet.iter (fun (key, _, _) -> print_endline key) t;
+  Glib.Timeout.add ~ms:1000 ~callback:decr_counter;  ()

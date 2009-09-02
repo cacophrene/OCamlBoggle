@@ -19,5 +19,5 @@
 val dice_matrix : string array array
   (** Distribution des lettres adaptée au français. *)
 
-val init : unit -> unit
-  (** Mélange des dés. *)
+val run : unit -> unit
+  (** Lance une ouvelle partie. *)

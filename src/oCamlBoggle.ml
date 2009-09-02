@@ -17,7 +17,6 @@
 *)
 
 let _ =
-  Play.init ();
-  GUI.rerun#connect#clicked Play.init;
+  GUI.rerun#connect#clicked Play.run;
   GUI.window#show ();
   GMain.main ()
