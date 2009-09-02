@@ -5,11 +5,16 @@ OCamlBoggle - CHANGES
 OCamlBoggle 1.1
 --------------------
 
-  Possibilité de jouer dans un temps limité.
+  Mise à jour du dictionnaire (> 600 000 mots).
+  Possibilité de jouer (décompte de temps, score).
+  Ajout de l'option -time pour choisir la durée d'une partie.
+  Ajout de l'option -grid pour choisir les lettres de la première partie.
 
 
 OCamlBoggle 1.0
 --------------------
 
   Première version publique.
-  Résolution rapide de grilles 4x4, 5x5 et 6x6
+  Dictionnaire de plus de 580 000 mots.
+  Résolution rapide de grilles 4x4, 5x5 et 6x6.
+  N'affiche que la solution (pas de jeu possible).
