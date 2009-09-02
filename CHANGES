@@ -1,0 +1,15 @@
+OCamlBoggle - CHANGES
+------------------------------
+
+
+OCamlBoggle 1.1
+--------------------
+
+  Possibilité de jouer dans un temps limité.
+
+
+OCamlBoggle 1.0
+--------------------
+
+  Première version publique.
+  Résolution rapide de grilles 4x4, 5x5 et 6x6
