@@ -22,6 +22,7 @@ open Printf
 let grid = ref None
 let size = ref 4
 let time = ref 180
+let solve = ref false
 
 let set_time n =
   if n >= 2 && n < 11 then time := 60 * n
@@ -49,6 +50,7 @@ let spec = align [
   "-n", Int set_size, " Choisir la taille de la grille (défaut : 4)";
   "-grid", String set_grid, " Choisir la grille.";
   "-time", Int set_time, " Durée d'une partie en minutes (défaut : 3 min).";
+  "-solve", Set solve, " Résoudre la grille et quitter.";
 ]
 
 let anon _ = ()

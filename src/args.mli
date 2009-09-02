@@ -22,4 +22,6 @@ val grid : string option ref
 
 val time : int ref
 
+val solve : bool ref
+
 val parse : unit -> unit

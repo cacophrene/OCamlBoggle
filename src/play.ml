@@ -38,6 +38,7 @@ let dice_matrix = [|
 let id = ref None
 let max = ref 0
 let score = ref 0
+let count = ref 0
 let counter = ref !Args.time
 let solution = ref Find.SSet.empty
 
@@ -66,6 +67,7 @@ let init () =
     Args.grid := None
 
 let show_missing () =
+  GUI.notebook#goto_page 1;
   Find.SSet.iter (fun (key, pos, l) -> 
     let word = Find.string_of_list l in
     let score = Find.score_of_string key in
@@ -73,14 +75,17 @@ let show_missing () =
   ) !solution;
   false
 
-let dialog = GWindow.message_dialog
+let dialog () = GWindow.message_dialog
   ~parent:GUI.window
   ~destroy_with_parent:true
   ~message_type:`INFO
   ~buttons:GWindow.Buttons.ok
   ~use_markup:true
-  ~message:"<b><big>La partie est terminée !</big>\n\
+  ~message:(
+    Printf.sprintf "<b><big>La partie est terminée !</big>\n\
+    Vous avez trouvé %d mots sur un total de %d.\n\n\
     Voyons les mots que vous avez oubliés...</b>"
+    (!count - Find.SSet.cardinal !solution) !count)
   ~show:false ()
 
 let decr_counter () =
@@ -88,8 +93,9 @@ let decr_counter () =
   GUI.set_remaining_time ~seconds:!counter;
   if !counter = 0 then (
     GUI.guess_word#misc#set_sensitive false;
+    let dialog = dialog () in
     let _ = dialog#run () in
-    dialog#misc#hide ();
+    dialog#destroy ();
     ignore (Glib.Timeout.add ~ms:100 ~callback:show_missing);
   );
   !counter > 0
@@ -116,6 +122,20 @@ let check_guessed_word t =
 let run () =
   init ();
   solution := Find.run ();
-  max := Find.SSet.fold (fun (key, _, _) n -> n + Find.score_of_string key) !solution 0;
-  GUI.set_score ~max:!max 0;
-  id := Some (Glib.Timeout.add ~ms:1000 ~callback:decr_counter)
+  if !Args.solve then (
+    Printf.printf "> Grille : ";
+    GUI.Table.iter (fun entry -> Printf.printf "%s" entry#text) ();
+    Printf.printf "\n";
+    Printf.printf "> Solution : %d mot(s) trouvé(s).\n\n" (Find.SSet.cardinal !solution);
+    Find.SSet.iter (fun (key, _, l) ->
+      Printf.printf "%-30s %2d pt     %s\n" key  (Find.score_of_string key) 
+        (Find.string_of_list l)
+    ) !solution;
+    flush stdout;
+    exit 0
+  ) else (
+    count := Find.SSet.cardinal !solution;
+    max := Find.SSet.fold (fun (key, _, _) n -> n + Find.score_of_string key) !solution 0;
+    GUI.set_score ~max:!max 0;
+    id := Some (Glib.Timeout.add ~ms:1000 ~callback:decr_counter)
+  )
