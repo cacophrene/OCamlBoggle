@@ -19,12 +19,17 @@
 module App :
   sig
     val name : string
+      (** Nom de l'application. *)
     val icon : GdkPixbuf.pixbuf
+      (** Icône affichée dans le systray. *)
     val version : string
+      (** Numéro de version. *)
     val title : string
+      (** Titre complet (c.-à-d. nom et numéro de version). *)
   end
 
 val window : GWindow.window
+  (** Fenêtre principale de l'application. *)
 
 module Table :
   sig
@@ -45,7 +50,10 @@ module type TREE_VIEW =
   end
 
 module Guesses : TREE_VIEW
+  (** Mots devinés. *)
+
 module Missing : TREE_VIEW
+  (** Mots non devinés. *)
 
 val set_remaining_time : seconds:int -> unit
   (** Temps restant avant la fin de la partie et l'affichage de la solution. *)
