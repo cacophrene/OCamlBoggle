@@ -22,7 +22,7 @@ module App =
   struct
     let name = "OCamlBoggle"
     let icon = GdkPixbuf.from_file "ocamlboggle-icon.png"
-    let version = "1.0"
+    let version = "1.1"
     let title = name ^ " " ^ version
   end
 
