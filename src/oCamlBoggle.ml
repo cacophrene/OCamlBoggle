@@ -19,6 +19,5 @@
 let _ =
   Play.init ();
   GUI.replay#connect#clicked Play.init;
-  GUI.find#connect#clicked Find.run;
   GUI.window#show ();
   GMain.main ()

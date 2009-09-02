@@ -16,4 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
-val run : unit -> unit
+type key = string
+type pos = int * int
+type word = key * pos list * string list
+
+module SSet : Set.S with type elt = word
+
+val run : unit -> SSet.t

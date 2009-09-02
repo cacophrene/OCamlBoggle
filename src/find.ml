@@ -18,6 +18,10 @@
 
 open Printf
 
+type key = string
+type pos = int * int
+type word = key * pos list * string list
+
 let t : string list Trie.ASCII.t = 
   let ich = open_in "OCAMLBOGGLE-DATABASE" in
   let tm1 = Unix.gettimeofday () in
@@ -123,7 +127,7 @@ module Algo =
       let tm1 = Unix.gettimeofday () in
       let set = select_root 0 0 SSet.empty in
       let tm2 = Unix.gettimeofday () in
-      show set tm1 tm2
+      set
   end
 
 let run = Algo.run

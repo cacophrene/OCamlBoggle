@@ -16,9 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
-let _ = 
-  GMain.init ();
-  Args.parse ()
+let _ = GMain.init (); Args.parse ()
 
 module App =
   struct
