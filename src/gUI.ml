@@ -75,6 +75,7 @@ module Table =
       Array.init !Args.size (fun top ->
         Array.init !Args.size (fun left -> 
           let entry = GEdit.entry
+            ~editable:false
             ~max_length:1
             ~width:len
             ~height:len
@@ -83,7 +84,6 @@ module Table =
           entry#misc#modify_font_by_name "Sans 40";
           entry#event#connect#key_press ~callback:(ensure_uppercase entry);
           entry ))
-
     let iter f () = Array.iter (Array.iter f) squares
     let clear = iter (fun entry -> entry#delete_text ~start:0 ~stop:1)
     let lock = iter (fun entry -> entry#set_editable false)

@@ -34,6 +34,7 @@ module Table :
     val clear : unit -> unit
     val lock : unit -> unit
     val unlock : unit -> unit
+    val iter : (GEdit.entry -> unit) -> unit -> unit
   end
 
 module type TREE_VIEW =
