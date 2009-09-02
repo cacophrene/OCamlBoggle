@@ -204,7 +204,10 @@ let ensure_uppercase entry t =
   if entry#editable then (
     let n = GdkEvent.Key.keyval t in
     if n >= 97 && n <= 122 || n >= 65 && n <= 90 then (
-      entry#append_text (String.uppercase (GdkEvent.Key.string t));
+      let pos = entry#position + 1 in
+      let str = String.uppercase (GdkEvent.Key.string t) in
+      entry#insert_text str ~pos;
+      entry#set_position (pos + Glib.Utf8.length str);
       true
     ) else n <> 65288 && n <> 65535 && n <> 65289
   ) else false

@@ -35,6 +35,7 @@ let dice_matrix = [|
   [|"X"; "F"; "A"; "R"; "I"; "O"|];
 |]
 
+let id = ref None
 let max = ref 0
 let score = ref 0
 let counter = ref 180
@@ -43,16 +44,16 @@ let solution = ref Find.SSet.empty
 let init () =
   score := 0;
   counter := 180;
+  begin match !id with Some id -> Glib.Timeout.remove id | _ -> () end;
   GUI.guess_word#misc#set_sensitive true;
-  Guesses.clear ();
-  Missing.clear ();
+  GUI.Guesses.clear ();
+  GUI.Missing.clear ();
   Random.self_init ();
   GUI.Table.iter (
     function entry ->
       entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
-  ) ()
-
-
+  ) ();
+  GUI.guess_word#misc#grab_focus ()
 
 let show_missing () =
   GUI.guess_word#misc#set_sensitive false;
@@ -61,7 +62,6 @@ let show_missing () =
     let score = Find.score_of_string key in
     GUI.Missing.add ~key ~word ~score pos;
   ) !solution
-
 
 let decr_counter () =
   decr counter;
@@ -93,4 +93,4 @@ let run () =
   solution := Find.run ();
   max := Find.SSet.fold (fun (key, _, _) n -> n + Find.score_of_string key) !solution 0;
   GUI.set_score ~max:!max 0;
-  Glib.Timeout.add ~ms:1000 ~callback:decr_counter;  ()
+  id := Some (Glib.Timeout.add ~ms:1000 ~callback:decr_counter)
