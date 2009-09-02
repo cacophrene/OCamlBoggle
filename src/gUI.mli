@@ -58,5 +58,7 @@ module Missing : TREE_VIEW
 val set_remaining_time : seconds:int -> unit
   (** Temps restant avant la fin de la partie et l'affichage de la solution. *)
 
+val guess_word : GEdit.entry
+  (** Case de texte où sont saisis les mots devinés. *)
 val rerun : GButton.button
   (** Nouvelle partie. *)

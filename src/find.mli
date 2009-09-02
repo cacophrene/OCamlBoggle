@@ -22,4 +22,8 @@ type word = key * pos list * string list
 
 module SSet : Set.S with type elt = word
 
+val score_of_string : string -> int
+
+val string_of_list : string list -> string
+
 val run : unit -> SSet.t

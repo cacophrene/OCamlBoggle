@@ -193,7 +193,7 @@ let set_remaining_time ~seconds:n =
   let min = n / 60 and sec = n mod 60 in
   Printf.ksprintf time#set_label "<b><big>%02d:%02d</big></b>" min sec
 
-let try_word = 
+let guess_word = 
   let entry = GEdit.entry 
     ~packing:(container#pack ~expand:false) () in
   entry#misc#modify_font_by_name "Sans Bold 12";

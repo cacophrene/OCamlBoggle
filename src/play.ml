@@ -43,14 +43,42 @@ let init () =
   ) ()
 
 let counter = ref 180
+let solution = ref Find.SSet.empty
+
+let show_missing () =
+  Find.SSet.iter (fun (key, pos, l) -> 
+    let word = Find.string_of_list l in
+    let score = Find.score_of_string key in
+    GUI.Missing.add ~key ~word ~score pos;
+  ) !solution
+
 
 let decr_counter () =
   decr counter;
   GUI.set_remaining_time ~seconds:!counter;
+  if !counter = 0 then show_missing ();
   !counter > 0
+
+
+
+let check_guessed_word t =
+  if GdkEvent.Key.keyval t = 65293 then (
+    let str = Glib.Utf8.uppercase (GUI.guess_word#text) in
+    begin try
+      Find.SSet.iter (fun ((key, pos, l) as tpl) -> 
+        if key = str then (
+          let word = Find.string_of_list l in
+          let score = Find.score_of_string key in
+          GUI.Guesses.add ~key ~word ~score pos;
+          solution := Find.SSet.remove tpl !solution;
+          raise Exit;
+        )
+      ) !solution;
+    with Exit -> GUI.guess_word#set_text "" end;
+    true
+  ) else false
 
 let run () =
   init ();
-  let t = Find.run () in
-  Find.SSet.iter (fun (key, _, _) -> print_endline key) t;
+  solution := Find.run ();
   Glib.Timeout.add ~ms:1000 ~callback:decr_counter;  ()

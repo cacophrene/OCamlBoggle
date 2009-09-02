@@ -18,5 +18,6 @@
 
 let _ =
   GUI.rerun#connect#clicked Play.run;
+  GUI.guess_word#event#connect#key_release Play.check_guessed_word;
   GUI.window#show ();
   GMain.main ()

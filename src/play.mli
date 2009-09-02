@@ -19,5 +19,7 @@
 val dice_matrix : string array array
   (** Distribution des lettres adaptée au français. *)
 
+val check_guessed_word : GdkEvent.Key.t -> bool
+
 val run : unit -> unit
   (** Lance une ouvelle partie. *)
