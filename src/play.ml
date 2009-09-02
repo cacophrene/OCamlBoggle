@@ -35,19 +35,27 @@ let dice_matrix = [|
   [|"X"; "F"; "A"; "R"; "I"; "O"|];
 |]
 
+let max = ref 0
+let score = ref 0
+let counter = ref 180
+let solution = ref Find.SSet.empty
+
 let init () =
+  score := 0;
+  counter := 180;
+  GUI.guess_word#misc#set_sensitive true;
+  Guesses.clear ();
+  Missing.clear ();
   Random.self_init ();
   GUI.Table.iter (
     function entry ->
       entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
   ) ()
 
-let max = ref 0
-let score = ref 0
-let counter = ref 180
-let solution = ref Find.SSet.empty
+
 
 let show_missing () =
+  GUI.guess_word#misc#set_sensitive false;
   Find.SSet.iter (fun (key, pos, l) -> 
     let word = Find.string_of_list l in
     let score = Find.score_of_string key in
@@ -60,8 +68,6 @@ let decr_counter () =
   GUI.set_remaining_time ~seconds:!counter;
   if !counter = 0 then show_missing ();
   !counter > 0
-
-
 
 let check_guessed_word t =
   if GdkEvent.Key.keyval t = 65293 then (
