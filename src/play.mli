@@ -1,5 +1,5 @@
 (*
-    oCamlBoggle.ml - This file is part of OCamlBoggle
+    play.mli - This file is part of OCamlBoggle
     Copyright (C) 2009  Edouard Evangelisti
 
     This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *)
 
-let _ =
-  Play.init ();
-  GUI.replay#connect#clicked Play.init;
-  GUI.find#connect#clicked Find.run;
-  GUI.window#show ();
-  GMain.main ()
+val dice_matrix : string array array
+  (** Distribution des lettres adaptée au français. *)
+
+val init : unit -> unit
+  (** Mélange des dés. *)
