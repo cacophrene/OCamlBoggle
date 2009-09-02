@@ -62,6 +62,9 @@ module Missing : TREE_VIEW
 val set_remaining_time : seconds:int -> unit
   (** Temps restant avant la fin de la partie et l'affichage de la solution. *)
 
+val set_score : max:int -> int -> unit
+  (** Modifie le score. *)
+
 val guess_word : GEdit.entry
   (** Case de texte où sont saisis les mots devinés. *)
 val rerun : GButton.button

@@ -42,6 +42,8 @@ let init () =
       entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
   ) ()
 
+let max = ref 0
+let score = ref 0
 let counter = ref 180
 let solution = ref Find.SSet.empty
 
@@ -63,13 +65,15 @@ let decr_counter () =
 
 let check_guessed_word t =
   if GdkEvent.Key.keyval t = 65293 then (
-    let str = Glib.Utf8.uppercase (GUI.guess_word#text) in
+    let str = GUI.guess_word#text in
     begin try
       Find.SSet.iter (fun ((key, pos, l) as tpl) -> 
         if key = str then (
           let word = Find.string_of_list l in
-          let score = Find.score_of_string key in
-          GUI.Guesses.add ~select:true ~key ~word ~score pos;
+          let sc = Find.score_of_string key in
+          score := !score + sc;
+          GUI.set_score ~max:!max !score;
+          GUI.Guesses.add ~select:true ~key ~word ~score:sc pos;
           solution := Find.SSet.remove tpl !solution;
           raise Exit;
         )
@@ -81,4 +85,6 @@ let check_guessed_word t =
 let run () =
   init ();
   solution := Find.run ();
+  max := Find.SSet.fold (fun (key, _, _) n -> n + Find.score_of_string key) !solution 0;
+  GUI.set_score ~max:!max 0;
   Glib.Timeout.add ~ms:1000 ~callback:decr_counter;  ()

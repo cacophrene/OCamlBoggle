@@ -50,15 +50,6 @@ module Table =
   struct
     type 'a matrix = 'a array array
 
-    let ensure_uppercase entry t =
-      if entry#editable then (
-        let n = GdkEvent.Key.keyval t in
-        if n >= 97 && n <= 122 || n >= 65 && n <= 90 then (
-          entry#set_text (String.uppercase (GdkEvent.Key.string t));
-          true
-        ) else n <> 65288 && n <> 65535 && n <> 65289
-      ) else false
-
     let container = GPack.table
       ~rows:!Args.size
       ~columns:!Args.size
@@ -79,8 +70,7 @@ module Table =
             ~height:len
             ~xalign:0.5
             ~packing:(container#attach ~top ~left) () in
-          entry#misc#modify_font_by_name "Sans 40";
-          entry#event#connect#key_press ~callback:(ensure_uppercase entry);
+          entry#misc#modify_font_by_name "Sans Bold 40";
           entry ))
     let iter f () = Array.iter (Array.iter f) squares
     let clear = iter (fun entry -> entry#delete_text ~start:0 ~stop:1)
@@ -191,18 +181,39 @@ module Make = functor (TabInfo : TAB_INFOS) ->
 module Guesses = Make(struct let title = "Mots devinés" end)
 module Missing = Make(struct let title = "Mots manqués" end)
 
+let label_box = GPack.hbox
+  ~spacing:10
+  ~packing:(container#pack ~expand:false) ()
+
 let time = GMisc.label 
   ~markup:"<b><big>03:00</big></b>" 
-  ~packing:(container#pack ~expand:false) ()
+  ~packing:label_box#add ()
+
+let score = GMisc.label 
+  ~markup:"<b><big>0 point(s)</big></b>" 
+  ~packing:label_box#add ()
 
 let set_remaining_time ~seconds:n =
   let min = n / 60 and sec = n mod 60 in
   Printf.ksprintf time#set_label "<b><big>%02d:%02d</big></b>" min sec
 
+let set_score ~max n =
+  Printf.ksprintf score#set_label "<b><big>%d / %d</big></b>" n max
+
+let ensure_uppercase entry t =
+  if entry#editable then (
+    let n = GdkEvent.Key.keyval t in
+    if n >= 97 && n <= 122 || n >= 65 && n <= 90 then (
+      entry#append_text (String.uppercase (GdkEvent.Key.string t));
+      true
+    ) else n <> 65288 && n <> 65535 && n <> 65289
+  ) else false
+
 let guess_word = 
   let entry = GEdit.entry 
     ~packing:(container#pack ~expand:false) () in
   entry#misc#modify_font_by_name "Sans Bold 12";
+  entry#event#connect#key_press (ensure_uppercase entry);
   entry
 
 let bbox = GPack.button_box `HORIZONTAL
