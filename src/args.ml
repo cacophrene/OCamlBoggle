@@ -24,7 +24,7 @@ let size = ref 4
 let time = ref 180
 
 let set_time n =
-  if n >= 2 || n < 11 then time := 60 * n
+  if n >= 2 && n < 11 then time := 60 * n
   else eprintf "(OcamlBoggle) Error: \
     Invalid time %d min replaced by 3 min.\n%!" n
 
