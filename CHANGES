@@ -9,6 +9,7 @@ OCamlBoggle 1.1
   Possibilité de jouer (décompte de temps, score).
   Ajout de l'option -time pour choisir la durée d'une partie.
   Ajout de l'option -grid pour choisir les lettres de la première partie.
+  Ajout de l'option -solve pour résoudre une grille en mode console.
 
 
 OCamlBoggle 1.0
