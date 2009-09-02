@@ -90,7 +90,6 @@ module Table =
   end
 
 let container = GPack.vbox ~spacing:5 ~packing:hbox#add ()
-
 let notebook = GPack.notebook ~packing:container#add ()
 
 module type TAB_INFOS =
@@ -183,42 +182,31 @@ module Make = functor (TabInfo : TAB_INFOS) ->
       container#coerce
   end
 
-module Words = Make(struct let title = "Mots devinés" end)
-(*module Guesses = Make(struct let title = "Mots devinés" end)*)
+module Guesses = Make(struct let title = "Mots devinés" end)
 module Missing = Make(struct let title = "Mots manqués" end)
 
+let time = GMisc.label 
+  ~markup:"<b><big>03:00</big></b>" 
+  ~packing:(container#pack ~expand:false) ()
+
+let set_remaining_time ~seconds:n =
+  let min = n / 60 and sec = n mod 60 in
+  Printf.ksprintf time#set_label "<b><big>%02d:%02d</big><b>" min sec
+
 let try_word = 
-  let frame = GBin.frame
-    ~label:"Valider ce mot"
+  let entry = GEdit.entry 
     ~packing:(container#pack ~expand:false) () in
-  let hbox = GPack.hbox ~border_width:5 ~packing:frame#add () in
-  let entry = GEdit.entry ~packing:hbox#add () in entry
+  entry#misc#modify_font_by_name "Sans Bold 12";
+  entry
 
 let bbox = GPack.button_box `HORIZONTAL
-  ~layout:`SPREAD
+  ~layout:`START
   ~border_width:5
   ~packing:(vbox#pack ~expand:false) ()
 
-let quit = 
-  let btn = GButton.button
-    ~stock:`QUIT
-    ~packing:bbox#add () in
-  btn#connect#clicked ~callback:window#destroy;
-  btn
-
-let replay = 
+let rerun = 
   let btn = GButton.button
     ~label:"Nouvelle partie"
     ~packing:bbox#add () in
-  btn#connect#clicked Words.clear;
-  btn#connect#clicked Table.clear;
+  btn#set_image (GMisc.image ~stock:`NEW ())#coerce;
   btn
-
-let find = GButton.button
-  ~stock:`FIND
-    ~packing:bbox#add ()
-
-let bar = GMisc.statusbar ~packing:(vbox#pack ~expand:false) ()
-let ctx = bar#new_context "info"
-
-let print fmt = Printf.ksprintf (fun s -> ignore (ctx#push s)) fmt

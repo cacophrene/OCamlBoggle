@@ -18,6 +18,6 @@
 
 let _ =
   Play.init ();
-  GUI.replay#connect#clicked Play.init;
+  GUI.rerun#connect#clicked Play.init;
   GUI.window#show ();
   GMain.main ()

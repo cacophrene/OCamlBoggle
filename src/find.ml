@@ -108,10 +108,10 @@ module Algo =
         GUI.Words.add ~key ~word:(string_of_list dat) ~score:s seq;
         count + 1, score + s
       ) set (0, 0) in
-      let tm3 = Unix.gettimeofday () in 
+      let tm3 = Unix.gettimeofday () in () (* 
       GUI.print "Solution : %d mot(s), %d point(s). Temps de calcul : %.3f s; \
         Temps d'affichage : %.3f." count score 
-        (tm2 -. tm1) (tm3 -. tm2)
+        (tm2 -. tm1) (tm3 -. tm2)*)
 
     let run () =
       GUI.Words.clear ();

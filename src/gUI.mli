@@ -44,13 +44,11 @@ module type TREE_VIEW =
     val view : GTree.view
   end
 
-module Words : TREE_VIEW
-(*module Guesses : TREE_VIEW*)
+module Guesses : TREE_VIEW
 module Missing : TREE_VIEW
 
+val set_remaining_time : seconds:int -> unit
+  (** Temps restant avant la fin de la partie et l'affichage de la solution. *)
 
-val quit : GButton.button
-val replay : GButton.button
-val find : GButton.button
-
-val print : ('a, unit, string, unit) format4 -> 'a
+val rerun : GButton.button
+  (** Nouvelle partie. *)
