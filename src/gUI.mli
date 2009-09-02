@@ -42,6 +42,9 @@ module Table :
     val iter : (GEdit.entry -> unit) -> unit -> unit
   end
 
+val notebook : GPack.notebook
+  (** Vue en onglets. *)
+
 module type TREE_VIEW =
   sig
     val add : 

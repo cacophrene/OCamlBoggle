@@ -44,6 +44,7 @@ let solution = ref Find.SSet.empty
 let init () =
   score := 0;
   counter := !Args.time;
+  GUI.notebook#goto_page 0;
   GUI.set_remaining_time ~seconds:!counter;
   begin match !id with Some id -> Glib.Timeout.remove id | _ -> () end;
   GUI.guess_word#misc#set_sensitive true;
@@ -77,7 +78,9 @@ let dialog = GWindow.message_dialog
   ~destroy_with_parent:true
   ~message_type:`INFO
   ~buttons:GWindow.Buttons.ok
-  ~message:"La partie est terminée ! Voyons les mots que vous avez oubliés..."
+  ~use_markup:true
+  ~message:"<b><big>La partie est terminée !</big>\n\
+    Voyons les mots que vous avez oubliés...</b>"
   ~show:false ()
 
 let decr_counter () =
