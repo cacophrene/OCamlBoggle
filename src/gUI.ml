@@ -171,7 +171,10 @@ module Make = functor (TabInfo : TAB_INFOS) ->
       Data.store#set ~row ~column:Data.word word;
       Data.store#set ~row ~column:Data.score score;
       Data.store#set ~row ~column:Data.seq seq;
-      if select then view#selection#select_iter row
+      if select then (
+        view#selection#select_iter row;
+        view#scroll_to_cell (Data.store#get_path row) View.col1
+      )
 
     let page = notebook#append_page
       ~tab_label:(GMisc.label ~text:TabInfo.title ())#coerce
