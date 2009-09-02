@@ -188,9 +188,10 @@ let label_box = GPack.hbox
   ~spacing:10
   ~packing:(container#pack ~expand:false) ()
 
-let time = GMisc.label 
-  ~markup:"<b><big>03:00</big></b>" 
-  ~packing:label_box#add ()
+let time = 
+  let lbl = GMisc.label ~packing:label_box#add () in
+  lbl#set_use_markup true;
+  lbl
 
 let score = GMisc.label 
   ~markup:"<b><big>0 / -</big></b>" 
@@ -199,6 +200,8 @@ let score = GMisc.label
 let set_remaining_time ~seconds:n =
   let min = n / 60 and sec = n mod 60 in
   Printf.ksprintf time#set_label "<b><big>%02d:%02d</big></b>" min sec
+
+let _ = set_remaining_time ~seconds:!Args.time
 
 let set_score ~max n =
   Printf.ksprintf score#set_label "<b><big>%d / %d</big></b>" n max

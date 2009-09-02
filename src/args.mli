@@ -18,4 +18,8 @@
 
 val size : int ref
 
+val grid : string option ref
+
+val time : int ref
+
 val parse : unit -> unit

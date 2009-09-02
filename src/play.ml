@@ -38,23 +38,31 @@ let dice_matrix = [|
 let id = ref None
 let max = ref 0
 let score = ref 0
-let counter = ref 180
+let counter = ref !Args.time
 let solution = ref Find.SSet.empty
 
 let init () =
   score := 0;
-  counter := 180;
+  counter := !Args.time;
   GUI.set_remaining_time ~seconds:!counter;
   begin match !id with Some id -> Glib.Timeout.remove id | _ -> () end;
   GUI.guess_word#misc#set_sensitive true;
   GUI.Guesses.clear ();
   GUI.Missing.clear ();
   Random.self_init ();
-  GUI.Table.iter (
-    function entry ->
-      entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
-  ) ();
-  GUI.guess_word#misc#grab_focus ()
+  match !Args.grid with
+  | None ->
+    GUI.Table.iter (
+      function entry ->
+        entry#set_text dice_matrix.(Random.int 16).(Random.int 6)
+    ) ();
+    GUI.guess_word#misc#grab_focus ()
+  | Some seq -> let n = ref 0 in
+    GUI.Table.iter (function entry -> 
+      entry#set_text (String.make 1 seq.[!n]);
+      incr n
+    ) ();
+    Args.grid := None
 
 let show_missing () =
   Find.SSet.iter (fun (key, pos, l) -> 
