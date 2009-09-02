@@ -17,6 +17,6 @@
 *)
 
 let _ =
-  GUI.Words.find#connect#clicked ~callback:Find.run;
+  GUI.find#connect#clicked ~callback:Find.run;
   GUI.window#show ();
   GMain.main ()

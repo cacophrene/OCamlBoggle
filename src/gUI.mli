@@ -36,14 +36,20 @@ module Table :
     val unlock : unit -> unit
   end
 
-module Words :
+module type TREE_VIEW =
   sig
     val add : key:string -> word:string -> score:int -> (int * int) list -> unit
     val clear : unit -> unit
     val view : GTree.view
-    val quit : GButton.button
-    val replay : GButton.button
-    val find : GButton.button
   end
+
+module Words : TREE_VIEW
+(*module Guesses : TREE_VIEW*)
+module Missing : TREE_VIEW
+
+
+val quit : GButton.button
+val replay : GButton.button
+val find : GButton.button
 
 val print : ('a, unit, string, unit) format4 -> 'a

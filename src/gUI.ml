@@ -91,8 +91,25 @@ module Table =
     let get_grid () = Array.map (Array.map (fun entry -> entry#text)) squares
   end
 
-module Words =
+let container = GPack.vbox ~spacing:5 ~packing:hbox#add ()
+
+let notebook = GPack.notebook ~packing:container#add ()
+
+module type TAB_INFOS =
+  sig
+    val title : string
+  end
+
+module type TREE_VIEW =
+  sig
+    val add : key:string -> word:string -> score:int -> (int * int) list -> unit
+    val clear : unit -> unit
+    val view : GTree.view
+  end
+
+module Make = functor (TabInfo : TAB_INFOS) ->
   struct
+    let container = GPack.vbox ()
     module Data =
       struct
         let cols = new GTree.column_list
@@ -139,14 +156,7 @@ module Words =
       ~hpolicy:`ALWAYS
       ~vpolicy:`ALWAYS
       ~width:(!Args.size * (Table.len + 5)  - 5)
-      ~packing:hbox#add ()
-
-    let open_browser t =
-      if GdkEvent.Button.button t = 3 then
-        ignore (Unix.create_process "firefox" [|"firefox"; "http://atilf.atilf.fr/dendien\
-          /scripts/tlfiv4/showps.exe?p=combi.htm;java=no;"|] Unix.stdin 
-          Unix.stdout Unix.stderr); 
-      false
+      ~packing:container#add ()
 
     let show_path = 
       let highlight = [`NORMAL, `NAME "#eac64a"] in
@@ -166,35 +176,49 @@ module Words =
         ~packing:scroll#add () in
       List.iter (fun c -> ignore (view#append_column c)) 
         [View.col1; View.col2; View.col3];
-      view#event#connect#button_release open_browser;
       let sel = view#selection in
       sel#connect#changed (show_path sel);
       view
 
-    let bbox = GPack.button_box `HORIZONTAL
-      ~layout:`SPREAD
-      ~border_width:5
-      ~packing:(vbox#pack ~expand:false) ()
-
-    let quit = 
-      let btn = GButton.button
-        ~stock:`QUIT
-        ~packing:bbox#add () in
-      btn#connect#clicked ~callback:window#destroy;
-      btn
-
-    let replay = 
-      let btn = GButton.button
-        ~label:"Nouvelle partie"
-        ~packing:bbox#add () in
-      btn#connect#clicked clear;
-      btn#connect#clicked Table.clear;
-      btn
-
-    let find = GButton.button
-      ~stock:`FIND
-      ~packing:bbox#add ()
+    let page = notebook#append_page
+      ~tab_label:(GMisc.label ~text:TabInfo.title ())#coerce
+      container#coerce
   end
+
+module Words = Make(struct let title = "Mots devinés" end)
+(*module Guesses = Make(struct let title = "Mots devinés" end)*)
+module Missing = Make(struct let title = "Mots manqués" end)
+
+let try_word = 
+  let frame = GBin.frame
+    ~label:"Valider ce mot"
+    ~packing:(container#pack ~expand:false) () in
+  let hbox = GPack.hbox ~border_width:5 ~packing:frame#add () in
+  let entry = GEdit.entry ~packing:hbox#add () in entry
+
+let bbox = GPack.button_box `HORIZONTAL
+  ~layout:`SPREAD
+  ~border_width:5
+  ~packing:(vbox#pack ~expand:false) ()
+
+let quit = 
+  let btn = GButton.button
+    ~stock:`QUIT
+    ~packing:bbox#add () in
+  btn#connect#clicked ~callback:window#destroy;
+  btn
+
+let replay = 
+  let btn = GButton.button
+    ~label:"Nouvelle partie"
+    ~packing:bbox#add () in
+  btn#connect#clicked Words.clear;
+  btn#connect#clicked Table.clear;
+  btn
+
+let find = GButton.button
+  ~stock:`FIND
+    ~packing:bbox#add ()
 
 let bar = GMisc.statusbar ~packing:(vbox#pack ~expand:false) ()
 let ctx = bar#new_context "info"
