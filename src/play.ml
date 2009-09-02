@@ -44,6 +44,7 @@ let solution = ref Find.SSet.empty
 let init () =
   score := 0;
   counter := 180;
+  GUI.set_remaining_time ~seconds:!counter;
   begin match !id with Some id -> Glib.Timeout.remove id | _ -> () end;
   GUI.guess_word#misc#set_sensitive true;
   GUI.Guesses.clear ();
@@ -56,17 +57,30 @@ let init () =
   GUI.guess_word#misc#grab_focus ()
 
 let show_missing () =
-  GUI.guess_word#misc#set_sensitive false;
   Find.SSet.iter (fun (key, pos, l) -> 
     let word = Find.string_of_list l in
     let score = Find.score_of_string key in
     GUI.Missing.add ~key ~word ~score pos;
-  ) !solution
+  ) !solution;
+  false
+
+let dialog = GWindow.message_dialog
+  ~parent:GUI.window
+  ~destroy_with_parent:true
+  ~message_type:`INFO
+  ~buttons:GWindow.Buttons.ok
+  ~message:"La partie est terminée ! Voyons les mots que vous avez oubliés..."
+  ~show:false ()
 
 let decr_counter () =
   decr counter;
   GUI.set_remaining_time ~seconds:!counter;
-  if !counter = 0 then show_missing ();
+  if !counter = 0 then (
+    GUI.guess_word#misc#set_sensitive false;
+    let _ = dialog#run () in
+    dialog#misc#hide ();
+    ignore (Glib.Timeout.add ~ms:100 ~callback:show_missing);
+  );
   !counter > 0
 
 let check_guessed_word t =

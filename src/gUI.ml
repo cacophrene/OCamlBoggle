@@ -193,7 +193,7 @@ let time = GMisc.label
   ~packing:label_box#add ()
 
 let score = GMisc.label 
-  ~markup:"<b><big>0 point(s)</big></b>" 
+  ~markup:"<b><big>0 / -</big></b>" 
   ~packing:label_box#add ()
 
 let set_remaining_time ~seconds:n =
