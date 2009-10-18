@@ -101,7 +101,8 @@ let decr_counter () =
   !counter > 0
 
 let check_guessed_word t =
-  if GdkEvent.Key.keyval t = 65293 then (
+  let num = GdkEvent.Key.keyval t in
+  if num = 65293 || num = 65421 then (
     let str = GUI.guess_word#text in
     begin try
       Find.SSet.iter (fun ((key, pos, l) as tpl) -> 

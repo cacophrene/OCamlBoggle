@@ -25,6 +25,7 @@ type word = key * pos list * string list
 let t : string list Trie.ASCII.t = 
   let ich = open_in "OCAMLBOGGLE-DATABASE" in
   let lex = input_value ich in
+  Printf.printf "> Dictionary size : %d\n%!" (Trie.ASCII.length lex);
   close_in ich;
   lex
 
