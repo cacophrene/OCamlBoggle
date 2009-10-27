@@ -22,8 +22,11 @@ type key = string
 type pos = int * int
 type word = key * pos list * string list
 
-let t : string list Trie.ASCII.t = 
-  let ich = open_in "OCAMLBOGGLE-DATABASE" in
+let t : string list Trie.ASCII.t =
+  (* open_in_bin must be used here since OCAMLBOGGLE-DATABASE is a binary file. 
+   * There is no difference between text mode and binary mode in GNU/Linux, but
+   * this assertion is made wrong when using Microsoft Windows. *)
+  let ich = open_in_bin "OCAMLBOGGLE-DATABASE" in
   let lex = input_value ich in
   Printf.printf "> Dictionary size : %d\n%!" (Trie.ASCII.length lex);
   close_in ich;
