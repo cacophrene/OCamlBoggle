@@ -21,7 +21,7 @@ et ses fonctionnalités.
 1. Base de données
 --------------------
 
-  La base de données utilisée par OCamlBoggle comporte plus de 580 000 entrées.
+  La base de données utilisée par OCamlBoggle comporte plus de 600 000 entrées.
 Elle est issue du dictionnaire électronique des formes fléchies du français
 (DELA) produit par l'Université de Marne-la-Vallée. Afin d'accélérer son 
 chargement au démarrage de l'application, la base de données n'est pas stockée

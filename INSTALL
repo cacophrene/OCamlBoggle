@@ -32,6 +32,15 @@ commandes suivantes :
 $ cd src/
 $ ocamlbuild oCamlBoggle.byte
 
+Si vous souhaitez également régénérer la base de mots (OCAMLBOGGLE-DATABASE),
+utilisez le script build.sh :
+
+$ cd src
+$ ./build.sh
+
+Ce script vous sera utile si vous rencontrez une erreur au démarrage en raison
+des différentes version d'OCaml utilisées pour compiler le projet et la base.
+Ce script n'est donc utile qu'une seule fois.
 
 3. Remarque importante
 --------------------
